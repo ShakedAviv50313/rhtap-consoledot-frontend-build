@@ -1,0 +1,21 @@
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: inject-dockerfile
+spec:
+  description: >-
+    Tekton task to create a new dockerfile and inject it into a workspace
+  workspaces: 
+    - name: dockerfilews
+      description: The workspace where the dockerfile is stored
+      mountPath: /tmp
+  steps:
+    - name: create-dockerfile  
+      script: |
+       #!/usr/bin/env sh
+       set -xe
+       if [ "$(workspaces.dockerfilews.bound)" == "true" ] ; then
+        echo -e "FROM alpine\nCMD ["echo","Hello World"]" > $(workspaces.dockerfilews.path)/Dockerfile
+       else echo "Task: inject-dockerfile failed, workspace couldn't bound"
+       fi        

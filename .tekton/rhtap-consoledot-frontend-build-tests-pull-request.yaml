@@ -208,6 +208,10 @@ spec:
       workspaces:
       - name: source
         workspace: workspace
+    - name: inject-dockerfile
+      workspaces:
+      - name: source
+        workspace: workspace
     - name: build-container
       params:
       - name: IMAGE
